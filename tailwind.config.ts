@@ -9,8 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'landing-bg': '#FFFBF0',
+        'canvas-bg': '#0D0D1A',
+        coral: '#FF6B6B',
+        yellow: '#FFD93D',
+        green: '#6BCB77',
+        blue: '#4D96FF',
+        purple: '#C77DFF',
+      },
+      fontFamily: {
+        nunito: ['var(--font-nunito)', 'sans-serif'],
       },
     },
   },
