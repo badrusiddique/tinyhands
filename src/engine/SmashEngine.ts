@@ -3,6 +3,7 @@ import { ParticleSystem } from './ParticleSystem'
 import { PerformanceMonitor } from './PerformanceMonitor'
 import { InputHandler } from './InputHandler'
 import { AudioSystem } from './AudioSystem'
+import { IdleDemo } from './IdleDemo'
 import { EmojiPool } from '@/lib/emojiPool'
 import { CAPS } from '@/lib/constants'
 import { DEFAULT_THEME } from '@/lib/themes'
@@ -16,6 +17,7 @@ export class SmashEngine {
   private perfMonitor: PerformanceMonitor
   private inputHandler: InputHandler
   private audioSystem: AudioSystem
+  private idleDemo: IdleDemo
   private rafId: number | null = null
   private lastTimestamp = 0
   private theme: Theme
@@ -40,6 +42,11 @@ export class SmashEngine {
     const emojiPool = new EmojiPool()
     this.inputHandler = new InputHandler(emojiPool)
     this.audioSystem = new AudioSystem()
+    this.idleDemo = new IdleDemo((char, strength) => {
+      const x = Math.random() * window.innerWidth
+      const y = Math.random() * window.innerHeight * 0.7 + window.innerHeight * 0.15
+      this.glyphSystem.spawnWithStrength(char, x, y, strength)
+    })
     this.resizeCanvas()
     window.addEventListener('resize', this.resizeCanvas)
   }
@@ -64,6 +71,7 @@ export class SmashEngine {
       cancelAnimationFrame(this.rafId)
       this.rafId = null
     }
+    this.idleDemo.destroy()
     window.removeEventListener('resize', this.resizeCanvas)
   }
 
@@ -72,6 +80,7 @@ export class SmashEngine {
     const dt = Math.min((timestamp - this.lastTimestamp) / 1000, 0.1) // cap at 100ms
     this.lastTimestamp = timestamp
 
+    this.idleDemo.update(dt)
     this.render(dt, timestamp)
     this.rafId = requestAnimationFrame(this.loop)
   }
@@ -101,6 +110,20 @@ export class SmashEngine {
 
     this.particleSystem.update(dt)
     this.particleSystem.render(this.ctx)
+
+    // Render "made for ayaan" tag during idle demo
+    const tagOpacity = this.idleDemo.getAyaanTagOpacity()
+    if (tagOpacity > 0) {
+      const ctx = this.ctx
+      ctx.save()
+      ctx.globalAlpha = tagOpacity
+      ctx.font = '16px Nunito, sans-serif'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'bottom'
+      ctx.fillText('made for ayaan 🧡', w / 2, h - 48)
+      ctx.restore()
+    }
   }
 
   private applyBrightness(hex: string, delta: number): string {
@@ -123,7 +146,12 @@ export class SmashEngine {
     this.particleSystem.setTheme(theme)
   }
 
+  recordInput(): void {
+    this.idleDemo.recordInput()
+  }
+
   handlePointerMove(x: number, y: number, isDragging: boolean, lastX: number, lastY: number): void {
+    this.idleDemo.recordInput()
     // Note: throttling handled in SmashCanvas via timestamp tracking
 
     // Interpolate between last and current position for smooth trail
@@ -141,11 +169,11 @@ export class SmashEngine {
   }
 
   handleKeyDown(event: KeyboardEvent): void {
+    this.idleDemo.recordInput()
     const result = this.inputHandler.handle(event)
     if (!result) return
     this.spawnGlyph(result.char)
     this.audioSystem.playTone(result.type)
-    // Also notify idle system if present (will be added in commit 9)
   }
 
   setSoundEnabled(enabled: boolean): void {

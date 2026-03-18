@@ -95,4 +95,13 @@ export class GlyphSystem {
   setTheme(theme: Theme): void {
     this.theme = theme
   }
+
+  spawnWithStrength(char: string, x: number, y: number, strength: number): Glyph | null {
+    const glyph = this.spawn(char, x, y)
+    if (!glyph) return null
+    glyph.vx *= strength
+    glyph.vy *= strength
+    glyph.size *= strength
+    return glyph
+  }
 }
