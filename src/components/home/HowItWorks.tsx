@@ -4,7 +4,7 @@ const steps = [
     accent: '#FF6B6B',
     title: 'Open TinyHands',
     description:
-      'Open the website on your laptop or tablet. No downloads, no installs — it just works in your browser.',
+      'Open the website on your laptop or tablet. No downloads, no installs - it just works in your browser.',
   },
   {
     number: '2',
@@ -24,7 +24,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-white py-20 px-4">
+    <section className="bg-[#FFFBF0] py-20 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Section heading */}
         <div className="text-center mb-14">
@@ -41,7 +41,7 @@ export default function HowItWorks() {
           {steps.map((step) => (
             <div
               key={step.number}
-              className="rounded-2xl bg-white shadow-md p-8 flex flex-col items-center text-center border border-gray-100"
+              className="rounded-2xl bg-white shadow-sm p-8 flex flex-col items-center text-center border border-[#EDE8D8]"
             >
               {/* Number circle */}
               <div

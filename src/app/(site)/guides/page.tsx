@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { guides } from '@/lib/guides'
 
 export const metadata: Metadata = {
-  title: 'Guides — TinyHands',
+  title: 'Guides - TinyHands',
   description:
     'Guides for WFH parents on baby keyboard toys, toddler screen time, and keeping tiny hands safely occupied.',
 }
@@ -26,7 +26,7 @@ export default function GuidesPage() {
             <Link
               key={guide.slug}
               href={`/guides/${guide.slug}`}
-              className="block bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow hover:-translate-y-1 transform transition-transform"
+              className="block bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition-shadow hover:-translate-y-1 transform transition-transform border-l-4 border-[#FF6B6B]"
             >
               <h2 className="text-lg font-bold text-gray-900 mb-2">{guide.title}</h2>
               <p className="text-gray-600 text-sm leading-relaxed">{guide.description}</p>

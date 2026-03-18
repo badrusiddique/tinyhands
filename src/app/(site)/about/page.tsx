@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import FAQItem from '@/components/about/FAQItem'
 
 export const metadata: Metadata = {
-  title: 'About TinyHands — A Keyboard Toy for Ayaan',
-  description: 'The story behind TinyHands — built by a WFH dad for his keyboard-smashing toddler Ayaan.',
+  title: 'About TinyHands - A Keyboard Toy for Ayaan',
+  description: 'The story behind TinyHands - built by a WFH dad for his keyboard-smashing toddler Ayaan.',
 }
 
 export default function AboutPage() {
@@ -14,7 +14,7 @@ export default function AboutPage() {
       <section className="py-20 text-center px-4">
         <h1 className="text-5xl font-extrabold text-gray-900 mb-4">Meet TinyHands</h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          A safe, fullscreen keyboard smash toy — built by a work-from-home dad for his keyboard-obsessed toddler.
+          A safe, fullscreen keyboard smash toy - built by a work-from-home dad for his keyboard-obsessed toddler.
         </p>
       </section>
 
@@ -24,7 +24,7 @@ export default function AboutPage() {
         <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
           <p>
             Ayaan is two years old and absolutely convinced he runs a company. Every morning,
-            he watches his dad open the laptop, put on headphones, and &ldquo;work&rdquo; — so naturally,
+            he watches his dad open the laptop, put on headphones, and &ldquo;work&rdquo; - so naturally,
             he needs to do the same. The laptop lid goes up. The headphones go on. The tiny
             fingers find the keyboard.
           </p>
@@ -34,7 +34,7 @@ export default function AboutPage() {
             in a week, it was time for a solution.
           </p>
           <p>
-            TinyHands was born out of that frustration — and a lot of love. It turns every
+            TinyHands was born out of that frustration - and a lot of love. It turns every
             key press into a burst of color, sound, and joy. No tabs to accidentally close.
             No emails to accidentally send. Just a safe canvas for tiny hands to go wild.
           </p>
@@ -53,10 +53,14 @@ export default function AboutPage() {
               { icon: '📵', text: 'No ads, ever', color: '#C77DFF' },
               { icon: '🌐', text: 'No external API calls from the app', color: '#FFD93D' },
               { icon: '📊', text: 'Analytics: aggregate visit count only', color: '#FF6B6B' },
-            ].map(({ icon, text }) => (
-              <div key={text} className="flex items-center gap-3 bg-gray-50 rounded-2xl p-4">
+            ].map(({ icon, text, color }) => (
+              <div
+                key={text}
+                className="flex items-center gap-3 rounded-2xl p-4"
+                style={{ background: color + '22' }}
+              >
                 <span className="text-2xl">{icon}</span>
-                <span className="font-semibold text-gray-700">{text}</span>
+                <span className="font-semibold text-gray-800">{text}</span>
               </div>
             ))}
           </div>
@@ -97,11 +101,11 @@ export default function AboutPage() {
             />
             <FAQItem
               question="What data do you collect?"
-              answer="Almost nothing. We keep a single aggregate visitor count — just a number, no personal data, no cookies, no user tracking. We don't even know you exist as an individual. We just know someone visited."
+              answer="Almost nothing. We keep a single aggregate visitor count - just a number, no personal data, no cookies, no user tracking. We don't even know you exist as an individual. We just know someone visited."
             />
             <FAQItem
               question="Can my toddler break my computer?"
-              answer="No more than normal keyboard use. All dangerous key combos are blocked. The app runs entirely in the browser — nothing is written to your disk. The worst that can happen is the tab needs refreshing."
+              answer="No more than normal keyboard use. All dangerous key combos are blocked. The app runs entirely in the browser - nothing is written to your disk. The worst that can happen is the tab needs refreshing."
             />
           </div>
         </div>
