@@ -60,11 +60,16 @@ border-radius:  rounded-2xl (cards), rounded-full (badges/buttons)
 | Route | Page | Description |
 |-------|------|-------------|
 | `/` | Landing | Hero section, feature badges, how-it-works steps, visitor counter (`👁 X visits so far`) |
-| `/play` | Smash App | Fullscreen canvas, keyboard/mouse/touch input, themes, parent panel |
+| `/play` | Smash App | "Click to Start" overlay enters fullscreen on direct user gesture; keyboard/mouse/touch input, themes, parent panel |
 | `/about` | About | Ayaan's story (problem → idea → result), privacy badges, FAQ |
 | `/guides` | Guides Hub | Grid of 12 guide cards |
 | `/guides/[slug]` | Guide Detail | Individual guide page (SSG via `generateStaticParams`) |
 | `/api/visitors` | API Route | `GET` returns count, `POST` increments and returns count |
+
+---
+
+### Fullscreen Approach
+**"Click to Start" overlay** — on `/play`, a fullscreen overlay is shown before the smash canvas. The user clicks it, which requests fullscreen synchronously within the click handler (a direct user gesture). This replaces any auto-fullscreen-on-mount approach, which browsers silently block because it happens outside a gesture event. ESC exits fullscreen (browser default). If the user dismisses fullscreen, the Parent Panel has a fullscreen toggle to re-enter.
 
 ---
 
@@ -181,7 +186,7 @@ Each theme defines: `canvasBg`, `glyphColors[]`, `particleColors[]`, `particleSh
 ### Panel Contents
 - Theme switcher (4 themes as radio buttons or swipeable cards)
 - Sound toggle (on/off)
-- Fullscreen toggle
+- Fullscreen toggle (re-enters fullscreen if user exited)
 - Close button (returns to smash)
 
 ### Behavior

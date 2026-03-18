@@ -124,7 +124,7 @@ export default function SmashCanvas() {
         soundEnabled={soundEnabled}
         onSoundToggle={handleSoundToggle}
       />
-      {/* Subtle settings icon — reveals parent panel */}
+      {/* Subtle settings icon - reveals parent panel */}
       {!panelHook.isOpen && (
         <button
           onClick={panelHook.open}

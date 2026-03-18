@@ -8,11 +8,11 @@ export default function FullscreenManager() {
   const [started, setStarted] = useState(false)
 
   const handleStart = useCallback(async () => {
-    // Request fullscreen synchronously within the click handler — this is a direct user gesture
+    // Request fullscreen synchronously within the click handler - this is a direct user gesture
     try {
       await toggle()
     } catch {
-      // Fullscreen blocked (e.g., iframe) — continue anyway
+      // Fullscreen blocked (e.g., iframe) - continue anyway
     }
     setStarted(true)
   }, [toggle])
