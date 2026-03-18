@@ -11,7 +11,7 @@ export default function Footer() {
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-5">
           <Image src="/logo-icon.svg" alt="" width={28} height={28} />
-          <span className="font-nunito font-extrabold text-xl text-white drop-shadow-sm">TinyHands</span>
+          <span className="font-nunito font-extrabold text-xl text-white drop-shadow-sm">Little Humans Mash</span>
         </div>
 
         {/* Links */}
@@ -25,16 +25,16 @@ export default function Footer() {
           <Link href="/about" className="font-nunito font-bold text-white/80 hover:text-white transition-colors text-sm bg-white/20 rounded-full px-4 py-1.5 backdrop-blur-sm">
             About
           </Link>
-          <Link href="/guides" className="font-nunito font-bold text-white/80 hover:text-white transition-colors text-sm bg-white/20 rounded-full px-4 py-1.5 backdrop-blur-sm">
+          {/* <Link href="/guides" className="font-nunito font-bold text-white/80 hover:text-white transition-colors text-sm bg-white/20 rounded-full px-4 py-1.5 backdrop-blur-sm">
             Guides
-          </Link>
+          </Link> */}
         </div>
 
         <p className="font-nunito text-white/90 text-sm font-semibold drop-shadow-sm mb-1">
           Made with ❤️ for Ayaan and every curious toddler
         </p>
         <p className="font-nunito text-white/60 text-xs">
-          © 2026 TinyHands
+          © 2026 Little Humans Mash
         </p>
       </div>
     </footer>

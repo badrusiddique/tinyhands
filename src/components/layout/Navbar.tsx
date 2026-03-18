@@ -32,7 +32,7 @@ export default function Navbar() {
               className="animate-wiggle hover:animate-jiggle transition-transform"
             />
             <span className="font-nunito font-extrabold text-xl text-coral tracking-tight">
-              TinyHands
+              Little Humans Mash
             </span>
           </Link>
 
@@ -40,7 +40,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             <Link href="/play" className="font-nunito font-bold text-sm text-gray-600 hover:text-white hover:bg-coral hover:-translate-y-0.5 rounded-full px-4 py-1.5 transition-all">Play</Link>
             <Link href="/about" className="font-nunito font-bold text-sm text-gray-600 hover:text-white hover:bg-coral hover:-translate-y-0.5 rounded-full px-4 py-1.5 transition-all">About</Link>
-            <Link href="/guides" className="font-nunito font-bold text-sm text-gray-600 hover:text-white hover:bg-coral hover:-translate-y-0.5 rounded-full px-4 py-1.5 transition-all">Guides</Link>
+            {/* <Link href="/guides" className="font-nunito font-bold text-sm text-gray-600 hover:text-white hover:bg-coral hover:-translate-y-0.5 rounded-full px-4 py-1.5 transition-all">Guides</Link> */}
             {!loading && count > 0 && (
               <span className="ml-2 inline-flex items-center gap-1.5 bg-coral/10 text-coral font-nunito font-bold text-xs rounded-full px-3 py-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-coral animate-pulse" />
@@ -75,7 +75,7 @@ export default function Navbar() {
             <div className="flex flex-col gap-1 pt-2">
               <Link href="/play" onClick={() => setMobileOpen(false)} className="font-nunito font-bold text-gray-600 hover:text-white hover:bg-coral rounded-xl px-4 py-2 transition-all">Play</Link>
               <Link href="/about" onClick={() => setMobileOpen(false)} className="font-nunito font-bold text-gray-600 hover:text-white hover:bg-coral rounded-xl px-4 py-2 transition-all">About</Link>
-              <Link href="/guides" onClick={() => setMobileOpen(false)} className="font-nunito font-bold text-gray-600 hover:text-white hover:bg-coral rounded-xl px-4 py-2 transition-all">Guides</Link>
+              {/* <Link href="/guides" onClick={() => setMobileOpen(false)} className="font-nunito font-bold text-gray-600 hover:text-white hover:bg-coral rounded-xl px-4 py-2 transition-all">Guides</Link> */}
             </div>
           </div>
         )}
