@@ -15,7 +15,7 @@ export default function FeatureBadges() {
           {badges.map((badge) => (
             <span
               key={badge.label}
-              className="inline-flex items-center rounded-full px-5 py-2.5 font-nunito font-semibold text-sm sm:text-base"
+              className="inline-flex items-center rounded-full px-5 py-2.5 font-nunito font-semibold text-base border border-white/10"
               style={{ backgroundColor: badge.bg, color: badge.text }}
             >
               {badge.label}

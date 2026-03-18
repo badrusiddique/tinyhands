@@ -35,6 +35,8 @@ export interface Theme {
   glyphColors: string[]
   particleColors: string[]
   particleShape: 'confetti' | 'star' | 'bubble' | 'leaf'
+  ambientColor: string
+  ambientShape: 'dot' | 'star' | 'bubble' | 'spark'
 }
 
 export interface EngineState {

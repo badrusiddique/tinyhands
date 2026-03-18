@@ -1,20 +1,23 @@
 const steps = [
   {
     number: '1',
+    emoji: '🖥️',
     accent: '#FF6B6B',
     title: 'Open TinyHands',
     description:
-      'Open the website on your laptop or tablet. No downloads, no installs - it just works in your browser.',
+      'Open the website on your laptop or tablet. No downloads, no installs — it just works in your browser.',
   },
   {
     number: '2',
+    emoji: '⛶',
     accent: '#4D96FF',
     title: 'Go fullscreen',
     description:
-      'Press F11 or use the fullscreen button to fill the entire screen. That way there are no other tabs to accidentally close.',
+      'Click "Start Smashing" to go fullscreen instantly. No other tabs to accidentally close.',
   },
   {
     number: '3',
+    emoji: '👶',
     accent: '#6BCB77',
     title: 'Let them smash!',
     description:
@@ -26,7 +29,6 @@ export default function HowItWorks() {
   return (
     <section className="bg-[#FFFBF0] py-20 px-4">
       <div className="max-w-5xl mx-auto">
-        {/* Section heading */}
         <div className="text-center mb-14">
           <h2 className="font-nunito font-extrabold text-4xl sm:text-5xl text-gray-900 mb-4">
             How it works
@@ -36,16 +38,17 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        {/* Steps grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {steps.map((step) => (
             <div
               key={step.number}
               className="rounded-2xl bg-white shadow-sm p-8 flex flex-col items-center text-center border border-[#EDE8D8]"
             >
-              {/* Number circle */}
+              <div className="text-5xl mb-4 select-none" aria-hidden="true">
+                {step.emoji}
+              </div>
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-extrabold font-nunito text-white mb-6 shadow-md"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-extrabold font-nunito text-white mb-4 shadow-md"
                 style={{ backgroundColor: step.accent }}
               >
                 {step.number}

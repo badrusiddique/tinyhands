@@ -9,6 +9,15 @@ import { CAPS } from '@/lib/constants'
 import { DEFAULT_THEME } from '@/lib/themes'
 import type { Theme } from '@/types/smash'
 
+interface AmbientDot {
+  x: number
+  y: number
+  size: number
+  speed: number
+  opacity: number
+  phase: number
+}
+
 export class SmashEngine {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
@@ -22,7 +31,7 @@ export class SmashEngine {
   private lastTimestamp = 0
   private theme: Theme
   private prefersReducedMotion: boolean
-  private ambientDots: Array<{ x: number; y: number; size: number; speed: number; opacity: number }> = []
+  private ambientDots: AmbientDot[] = []
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
@@ -79,7 +88,7 @@ export class SmashEngine {
 
   private loop = (timestamp: number): void => {
     this.perfMonitor.tick(timestamp)
-    const dt = Math.min((timestamp - this.lastTimestamp) / 1000, 0.1) // cap at 100ms
+    const dt = Math.min((timestamp - this.lastTimestamp) / 1000, 0.1)
     this.lastTimestamp = timestamp
 
     this.idleDemo.update(dt)
@@ -107,8 +116,17 @@ export class SmashEngine {
     this.ctx.fillStyle = bgColor
     this.ctx.fillRect(0, 0, w, h)
 
+    // Radial vignette for depth
+    if (lpl < 2) {
+      const gradient = this.ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7)
+      gradient.addColorStop(0, 'rgba(0,0,0,0)')
+      gradient.addColorStop(1, 'rgba(0,0,0,0.4)')
+      this.ctx.fillStyle = gradient
+      this.ctx.fillRect(0, 0, w, h)
+    }
+
     // Ambient dot field (renders after background, before glyphs)
-    this.renderAmbientDots(dt, w, h)
+    this.renderAmbientDots(dt, w, h, timestamp)
 
     this.glyphSystem.update(dt)
     this.glyphSystem.render(this.ctx)
@@ -132,37 +150,84 @@ export class SmashEngine {
   }
 
   private initAmbientDots(): void {
-    const count = this.prefersReducedMotion ? 0 : 150
+    if (this.prefersReducedMotion) {
+      this.ambientDots = []
+      return
+    }
+    const w = window.innerWidth
+    const h = window.innerHeight
+    const count = Math.min(200, 60 + Math.floor((w * h) / 25000))
     this.ambientDots = []
     for (let i = 0; i < count; i++) {
       this.ambientDots.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        size: 1 + Math.random() * 3,         // 1-4px
-        speed: 15 + Math.random() * 25,       // 15-40px/s upward
-        opacity: 0.25 + Math.random() * 0.35, // 0.25-0.60 - much more visible
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 2 + Math.random() * 5,
+        speed: 8 + Math.random() * 20,
+        opacity: 0.2 + Math.random() * 0.4,
+        phase: Math.random() * Math.PI * 2,
       })
     }
   }
 
-  private renderAmbientDots(dt: number, w: number, h: number): void {
-    for (const dot of this.ambientDots) {
-      // Drift upward with gentle horizontal sway (snow-like)
-      dot.y -= dot.speed * dt
-      dot.x += Math.sin(dot.y * 0.02) * 0.4  // gentle sway
+  private renderAmbientDots(dt: number, w: number, h: number, timestamp: number): void {
+    const ambientColor = this.theme.ambientColor
+    const ambientShape = this.theme.ambientShape
 
-      // Wrap around top
+    for (const dot of this.ambientDots) {
+      dot.y -= dot.speed * dt
+      dot.x += Math.sin(dot.y * 0.02) * 0.4
+
       if (dot.y < -dot.size) {
         dot.y = h + dot.size
         dot.x = Math.random() * w
       }
 
+      // Sine-wave opacity pulse
+      const pulsedOpacity = dot.opacity * (0.7 + 0.3 * Math.sin(timestamp * 0.001 + dot.phase))
+
       this.ctx.save()
-      this.ctx.globalAlpha = dot.opacity
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'  // white snow
-      this.ctx.beginPath()
-      this.ctx.arc(dot.x, dot.y, dot.size / 2, 0, Math.PI * 2)
-      this.ctx.fill()
+      this.ctx.globalAlpha = pulsedOpacity
+      this.ctx.fillStyle = ambientColor
+
+      switch (ambientShape) {
+        case 'star': {
+          this.ctx.translate(dot.x, dot.y)
+          const outer = dot.size / 2
+          const inner = outer * 0.4
+          this.ctx.beginPath()
+          for (let i = 0; i < 8; i++) {
+            const r = i % 2 === 0 ? outer : inner
+            const angle = (i * Math.PI) / 4 - Math.PI / 2
+            if (i === 0) this.ctx.moveTo(Math.cos(angle) * r, Math.sin(angle) * r)
+            else this.ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r)
+          }
+          this.ctx.closePath()
+          this.ctx.fill()
+          break
+        }
+        case 'bubble':
+          this.ctx.beginPath()
+          this.ctx.arc(dot.x, dot.y, dot.size / 2, 0, Math.PI * 2)
+          this.ctx.fill()
+          // Highlight
+          this.ctx.globalAlpha = pulsedOpacity * 0.5
+          this.ctx.fillStyle = 'white'
+          this.ctx.beginPath()
+          this.ctx.arc(dot.x - dot.size * 0.15, dot.y - dot.size * 0.15, dot.size * 0.2, 0, Math.PI * 2)
+          this.ctx.fill()
+          break
+        case 'spark':
+          this.ctx.translate(dot.x, dot.y)
+          this.ctx.rotate(dot.phase + timestamp * 0.001)
+          this.ctx.fillRect(-dot.size * 0.15, -dot.size * 0.6, dot.size * 0.3, dot.size * 1.2)
+          break
+        default:
+          this.ctx.beginPath()
+          this.ctx.arc(dot.x, dot.y, dot.size / 2, 0, Math.PI * 2)
+          this.ctx.fill()
+      }
+
       this.ctx.restore()
     }
   }
@@ -176,8 +241,9 @@ export class SmashEngine {
   }
 
   spawnGlyph(char: string): void {
-    const x = Math.random() * window.innerWidth
-    const y = Math.random() * window.innerHeight * 0.7 + window.innerHeight * 0.15
+    const margin = window.innerWidth * 0.15
+    const x = margin + Math.random() * (window.innerWidth - margin * 2)
+    const y = window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.4
     this.glyphSystem.spawn(char, x, y)
   }
 
@@ -185,6 +251,7 @@ export class SmashEngine {
     this.theme = theme
     this.glyphSystem.setTheme(theme)
     this.particleSystem.setTheme(theme)
+    this.initAmbientDots()
   }
 
   recordInput(): void {
@@ -193,9 +260,7 @@ export class SmashEngine {
 
   handlePointerMove(x: number, y: number, isDragging: boolean, lastX: number, lastY: number): void {
     this.idleDemo.recordInput()
-    // Note: throttling handled in SmashCanvas via timestamp tracking
 
-    // Interpolate between last and current position for smooth trail
     const dx = x - lastX
     const dy = y - lastY
     const dist = Math.sqrt(dx * dx + dy * dy)
@@ -205,7 +270,7 @@ export class SmashEngine {
       const t = i / steps
       const ix = lastX + dx * t
       const iy = lastY + dy * t
-      this.particleSystem.spawn(ix, iy, 2)
+      this.particleSystem.spawn(ix, iy, 3)
     }
   }
 

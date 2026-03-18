@@ -13,7 +13,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-nunito font-extrabold text-2xl text-coral tracking-tight hover:opacity-80 transition-opacity"
+            className="font-nunito font-extrabold text-3xl text-coral tracking-tight hover:opacity-80 transition-opacity"
           >
             TinyHands
           </Link>
@@ -25,6 +25,7 @@ export default function Navbar() {
             <Link href="/guides" className="font-nunito font-semibold text-gray-700 hover:text-coral transition-colors">Guides</Link>
             {!loading && (
               <span className="font-nunito text-xs text-gray-400 hidden sm:inline">
+                <span className="text-gray-300 mr-2">|</span>
                 👁 {count.toLocaleString()} visits
               </span>
             )}

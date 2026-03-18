@@ -28,7 +28,7 @@ export class ParticleSystem {
         y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: 3 + Math.random() * 8,
+        size: 8 + Math.random() * 14,
         color: this.theme.particleColors[
           Math.floor(Math.random() * this.theme.particleColors.length)
         ],

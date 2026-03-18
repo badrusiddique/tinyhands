@@ -13,13 +13,13 @@ describe('GlyphSystem', () => {
     const g = system.spawn('A', 100, 100)
     expect(g).not.toBeNull()
     expect(g!.char).toBe('A')
-    expect(g!.vx).toBeGreaterThanOrEqual(-40)
-    expect(g!.vx).toBeLessThanOrEqual(40)
-    expect(g!.vy).toBeGreaterThanOrEqual(-120)
-    expect(g!.vy).toBeLessThanOrEqual(-60)
-    expect(g!.size).toBeGreaterThanOrEqual(180)
-    expect(g!.size).toBeLessThanOrEqual(360)
-    expect(g!.lifetime).toBe(4.0)
+    expect(g!.vx).toBeGreaterThanOrEqual(-4)
+    expect(g!.vx).toBeLessThanOrEqual(4)
+    expect(g!.vy).toBeGreaterThanOrEqual(-6)
+    expect(g!.vy).toBeLessThanOrEqual(-3)
+    expect(g!.size).toBeGreaterThanOrEqual(80)
+    expect(g!.size).toBeLessThanOrEqual(200)
+    expect(g!.lifetime).toBe(2.5)
     expect(g!.age).toBe(0)
     expect(g!.opacity).toBe(1)
   })
@@ -38,9 +38,9 @@ describe('GlyphSystem', () => {
   it('applies gravity in update', () => {
     const g = system.spawn('A', 100, 100)!
     const initialVy = g.vy
-    system.update(1) // 1 second
+    system.update(1)
     const glyphs = system.getGlyphs()
-    expect(glyphs[0].vy).toBeGreaterThan(initialVy) // gravity adds positive vy
+    expect(glyphs[0].vy).toBeGreaterThan(initialVy)
   })
 
   it('applies drag to vx in update', () => {
@@ -53,13 +53,13 @@ describe('GlyphSystem', () => {
 
   it('removes glyphs past their lifetime', () => {
     system.spawn('A', 100, 100)
-    system.update(5) // past lifetime of 4.0s
+    system.update(5)
     expect(system.getGlyphs()).toHaveLength(0)
   })
 
-  it('fades out in final 0.5s of lifetime', () => {
+  it('fades out in final 0.6s of lifetime', () => {
     const g = system.spawn('A', 100, 100)!
-    g.age = 3.0 // 1.0s left of 4.0s lifetime - within FADE_DURATION of 1.5s
+    g.age = 2.0 // 0.5s left of 2.5s lifetime — within FADE_DURATION of 0.6s
     system.update(0.001)
     const updated = system.getGlyphs()[0]
     expect(updated.opacity).toBeLessThan(1)

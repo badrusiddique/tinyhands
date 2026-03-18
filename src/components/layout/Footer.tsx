@@ -18,6 +18,9 @@ export default function Footer() {
             Guides
           </Link>
         </div>
+        <p className="font-nunito text-gray-400 text-sm mb-2">
+          Made with ❤️ for Ayaan and every curious toddler
+        </p>
         <p className="font-nunito text-gray-500 text-sm">
           © 2024 TinyHands • Made with love for toddlers everywhere
         </p>

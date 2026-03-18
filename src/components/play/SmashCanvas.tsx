@@ -38,7 +38,6 @@ export default function SmashCanvas() {
       const engine = engineRef.current
       if (!engine) return
 
-      // If panel is open, only allow Escape through (to close the panel)
       if (panelHook.isOpen) {
         if (e.key === 'Escape') {
           panelHook.close()
@@ -47,7 +46,6 @@ export default function SmashCanvas() {
         return
       }
 
-      // Feed key to parent panel secret word detector
       panelHook.onKey(e.key)
 
       engine.handleKeyDown(e)
@@ -58,7 +56,7 @@ export default function SmashCanvas() {
       if (!engine) return
 
       const now = performance.now()
-      const interval = isDragging.current ? 320 : 200
+      const interval = isDragging.current ? 50 : 30
       if (now - lastParticleTime.current < interval) return
       lastParticleTime.current = now
 
@@ -70,7 +68,6 @@ export default function SmashCanvas() {
       isDragging.current = true
       lastPointerPos.current = { x: e.clientX, y: e.clientY }
 
-      // Long press detection for top-left corner
       if (e.clientX <= PARENT_PANEL.LONG_PRESS_AREA && e.clientY <= PARENT_PANEL.LONG_PRESS_AREA) {
         longPressRef.current = setTimeout(() => {
           panelHook.open()
@@ -124,16 +121,23 @@ export default function SmashCanvas() {
         soundEnabled={soundEnabled}
         onSoundToggle={handleSoundToggle}
       />
-      {/* Subtle settings icon - reveals parent panel */}
       {!panelHook.isOpen && (
         <button
           onClick={panelHook.open}
-          className="fixed bottom-4 left-4 z-30 text-white/20 hover:text-white/60 transition-colors text-2xl leading-none select-none"
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
-          title="Parent settings"
+          className="fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full px-3 py-2 transition-all hover:scale-105"
+          style={{
+            background: 'rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.75)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            fontSize: '14px',
+            fontFamily: 'Nunito, sans-serif',
+            backdropFilter: 'blur(4px)',
+            cursor: 'pointer',
+          }}
+          title="Themes & Settings (or type 'ayaan')"
           aria-label="Open parent settings"
         >
-          ⚙
+          ⚙ Themes
         </button>
       )}
     </>

@@ -96,6 +96,10 @@ export default function ParentPanel({
           </button>
         </div>
 
+        <p className="mt-4 text-xs text-center text-gray-400">
+          Tip: hold top-left corner 2s or type &ldquo;ayaan&rdquo; to open
+        </p>
+
       </div>
     </div>
   )
