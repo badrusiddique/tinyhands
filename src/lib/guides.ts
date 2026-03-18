@@ -21,7 +21,7 @@ export const guides: Guide[] = [
       },
       {
         heading: 'What WFH Parents Can Do',
-        body: "The trick isn't to stop the keyboard fascination - you can't, and it's not harmful. The trick is to redirect it. A dedicated toddler keyboard toy, a broken keyboard with no computer attached, or a purpose-built app like TinyHands gives babies the cause-and-effect joy they crave without the risk of closing your video presentation or deleting a document you forgot to save.",
+        body: "The trick isn't to stop the keyboard fascination - you can't, and it's not harmful. The trick is to redirect it. A dedicated toddler keyboard toy, a broken keyboard with no computer attached, or a purpose-built app like LittleHumans gives babies the cause-and-effect joy they crave without the risk of closing your video presentation or deleting a document you forgot to save.",
       },
     ],
     faqs: [
@@ -97,8 +97,8 @@ export const guides: Guide[] = [
         body: "Sound is often overlooked in baby keyboard apps but it is critical. Harsh or startling sounds will cause babies to pull away. Pleasant, rounded tones at moderate volume keep them engaged. Ideally, different key types (letters vs symbols) produce different but equally pleasant sounds, adding audio variety without confusion. For WFH parents, the app should also be usable at low volume during calls.",
       },
       {
-        heading: 'TinyHands for Babies: What We Built',
-        body: "TinyHands was built specifically with these constraints in mind. Every keypress produces a large, colorful glyph with particle effects and a tone. The app runs fullscreen with no navigation chrome. There are no ads, no accounts, and no data collection. The parent panel - accessible only via secret word or long press - lets you switch themes and toggle sound without babies stumbling into settings.",
+        heading: 'LittleHumans for Babies: What We Built',
+        body: "LittleHumans was built specifically with these constraints in mind. Every keypress produces a large, colorful glyph with particle effects and a tone. The app runs fullscreen with no navigation chrome. There are no ads, no accounts, and no data collection. The parent panel - accessible only via secret word or long press - lets you switch themes and toggle sound without babies stumbling into settings.",
       },
     ],
     faqs: [
@@ -131,7 +131,7 @@ export const guides: Guide[] = [
       },
       {
         heading: 'TinyFingers-Style Apps: The Gold Standard',
-        body: 'TinyFingers.net pioneered the fullscreen keyboard smash toy and remains the most well-known option. Its core mechanic - press any key, see colorful animation - is simple and effective. TinyHands builds on this model with themes, performance optimization for older laptops, and a parent panel that gives you control without exposing settings to the baby. Both are free, browser-based, and require no installation.',
+        body: 'TinyFingers.net pioneered the fullscreen keyboard smash toy and remains the most well-known option. Its core mechanic - press any key, see colorful animation - is simple and effective. LittleHumans builds on this model with themes, performance optimization for older laptops, and a parent panel that gives you control without exposing settings to the baby. Both are free, browser-based, and require no installation.',
       },
       {
         heading: 'What to Avoid in Baby Keyboard Apps',
@@ -146,7 +146,7 @@ export const guides: Guide[] = [
       {
         question: 'Are there any keyboard games designed specifically for babies?',
         answer:
-          "Yes - TinyFingers.net is the oldest and best-known. TinyHands is a newer option with theme switching and a parent panel. Both are web-based, free, and require no downloads. Search for 'baby keyboard smash' and you will find a handful of similar options, though quality varies significantly.",
+          "Yes - TinyFingers.net is the oldest and best-known. LittleHumans is a newer option with theme switching and a parent panel. Both are web-based, free, and require no downloads. Search for 'baby keyboard smash' and you will find a handful of similar options, though quality varies significantly.",
       },
       {
         question: 'Can I use a regular keyboard app or does it need to be baby-specific?',
@@ -175,7 +175,7 @@ export const guides: Guide[] = [
       },
       {
         heading: 'Designing for the Transition',
-        body: "The best toddler keyboard apps accommodate both modes. They reward rapid palm smashing (good for babies) and also reward individual key presses with specific, repeatable results (good for toddlers). Theme switching gives toddlers something new to discover, extending engagement. TinyHands handles this by supporting all input modes - mashed keys, individual presses, mouse clicking, and touch - so the same app grows with your child.",
+        body: "The best toddler keyboard apps accommodate both modes. They reward rapid palm smashing (good for babies) and also reward individual key presses with specific, repeatable results (good for toddlers). Theme switching gives toddlers something new to discover, extending engagement. LittleHumans handles this by supporting all input modes - mashed keys, individual presses, mouse clicking, and touch - so the same app grows with your child.",
       },
     ],
     faqs: [
@@ -436,8 +436,8 @@ export const guides: Guide[] = [
         body: "TinyFingers.net is the original keyboard smash toy for babies and the most widely recommended. It has been running for years, loads quickly, and provides solid cause-and-effect interaction. It shows colored letters and shapes on key presses with decent particle effects. The main limitations: no themes, no parent panel, no performance mode for older hardware, and the design is showing its age. For parents who want something that just works, it remains a reliable choice.",
       },
       {
-        heading: 'TinyHands: Built for WFH Parents',
-        body: "TinyHands was built specifically for the WFH parent context - it is what happens when someone analyzes TinyFingers and asks 'what would a WFH parent need that this does not have?' Key additions: four themes (Playroom, Space, Ocean, Jungle) to extend novelty value, a parent panel locked behind a secret word or long press so toddlers cannot access settings, performance monitoring that adapts to older hardware, and a privacy-first approach with no ads, accounts, or tracking. The idle demo and 'made for Ayaan' Easter egg add personality.",
+        heading: 'LittleHumans: Built for WFH Parents',
+        body: "LittleHumans was built specifically for the WFH parent context - it is what happens when someone analyzes TinyFingers and asks 'what would a WFH parent need that this does not have?' Key additions: four themes (Playroom, Space, Ocean, Jungle) to extend novelty value, a parent panel locked behind a secret word or long press so toddlers cannot access settings, performance monitoring that adapts to older hardware, and a privacy-first approach with no ads, accounts, or tracking. The idle demo and 'made for Ayaan' Easter egg add personality.",
       },
       {
         heading: 'Generic Keyboard Mash Sites',
@@ -445,19 +445,19 @@ export const guides: Guide[] = [
       },
       {
         heading: 'Making Your Choice',
-        body: "For most WFH parents, the choice comes down to TinyFingers for simplicity and TinyHands for features. Both are free, browser-based, and work on any computer without installation. If you have a toddler who gets bored quickly and needs theme variety to stay engaged, TinyHands is the better fit. If you want the simplest possible option with years of proven reliability, TinyFingers is hard to argue with. The good news: both are a browser tab away and you can try both in five minutes.",
+        body: "For most WFH parents, the choice comes down to TinyFingers for simplicity and LittleHumans for features. Both are free, browser-based, and work on any computer without installation. If you have a toddler who gets bored quickly and needs theme variety to stay engaged, LittleHumans is the better fit. If you want the simplest possible option with years of proven reliability, TinyFingers is hard to argue with. The good news: both are a browser tab away and you can try both in five minutes.",
       },
     ],
     faqs: [
       {
         question: 'Do these keyboard toy websites collect data about my child?',
         answer:
-          "TinyHands explicitly does not collect any user data, user IDs, or behavioral tracking. Only an aggregate visitor counter is used. TinyFingers has no visible tracking or advertising. Always check the privacy policy of any site your child uses, and prefer options that are explicit about data practices.",
+          "LittleHumans explicitly does not collect any user data, user IDs, or behavioral tracking. Only an aggregate visitor counter is used. TinyFingers has no visible tracking or advertising. Always check the privacy policy of any site your child uses, and prefer options that are explicit about data practices.",
       },
       {
         question: 'Do keyboard toy websites work on tablets?',
         answer:
-          "Yes, though the experience is different. On a tablet, the 'keyboard' is on screen, which reduces the tactile feedback that makes physical keyboards so appealing to toddlers. However, most keyboard toy websites also respond to touch input, so they work on tablets as touch-based smash toys. TinyHands specifically supports mouse and touch input alongside keyboard input.",
+          "Yes, though the experience is different. On a tablet, the 'keyboard' is on screen, which reduces the tactile feedback that makes physical keyboards so appealing to toddlers. However, most keyboard toy websites also respond to touch input, so they work on tablets as touch-based smash toys. LittleHumans specifically supports mouse and touch input alongside keyboard input.",
       },
       {
         question: 'Are these websites safe to leave open on a shared family computer?',
