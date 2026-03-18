@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react'
 import { THEMES } from '@/lib/themes'
-import { useFullscreen } from '@/hooks/useFullscreen'
 import type { Theme } from '@/types/smash'
 
 interface ParentPanelProps {
@@ -22,8 +21,6 @@ export default function ParentPanel({
   soundEnabled,
   onSoundToggle,
 }: ParentPanelProps) {
-  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
-
   // Close on Escape
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -81,7 +78,7 @@ export default function ParentPanel({
         </div>
 
         {/* Sound Toggle */}
-        <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-gray-700">Sound</span>
           <button
             onClick={onSoundToggle}
@@ -99,16 +96,6 @@ export default function ParentPanel({
           </button>
         </div>
 
-        {/* Fullscreen Toggle */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-gray-700">Fullscreen</span>
-          <button
-            onClick={toggleFullscreen}
-            className="px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold hover:bg-blue-600 transition-colors"
-          >
-            {isFullscreen ? 'Exit' : 'Enter'}
-          </button>
-        </div>
       </div>
     </div>
   )

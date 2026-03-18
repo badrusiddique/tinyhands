@@ -1,7 +1,8 @@
 import SmashCanvas from '@/components/play/SmashCanvas'
+import FullscreenManager from '@/components/play/FullscreenManager'
 
 export const metadata = {
-  title: 'TinyHands — Smash!',
+  title: 'TinyHands - Smash!',
 }
 
 export default function PlayPage() {
@@ -11,6 +12,7 @@ export default function PlayPage() {
       style={{ background: '#1d293a' }}
     >
       <SmashCanvas />
+      <FullscreenManager />
     </div>
   )
 }
