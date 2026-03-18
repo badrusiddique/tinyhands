@@ -10,22 +10,22 @@ const nunito = Nunito({
 })
 
 export const metadata: Metadata = {
-  title: 'Little Humans Mash - Safe Keyboard Smash Toy for Toddlers',
+  title: 'TinyHands - Safe Keyboard Smash Toy for Toddlers',
   description: 'A safe fullscreen keyboard smash toy for babies and toddlers. No ads, no accounts, just fun.',
   icons: {
     icon: '/favicon.svg',
     apple: '/favicon.svg',
   },
   openGraph: {
-    title: 'Little Humans Mash - Keyboard Smash Toy for Toddlers',
+    title: 'TinyHands - Keyboard Smash Toy for Toddlers',
     description: 'A safe fullscreen keyboard toy for babies. Hand it over, watch the magic.',
     url: 'https://tinyhands-pi.vercel.app',
-    siteName: 'Little Humans Mash',
+    siteName: 'TinyHands',
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Little Humans Mash',
+    title: 'TinyHands',
     description: 'Safe keyboard smash toy for toddlers',
   },
 }

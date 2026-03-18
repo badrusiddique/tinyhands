@@ -16,7 +16,7 @@ export async function generateMetadata({
   const guide = guides.find(g => g.slug === params.slug)
   if (!guide) return {}
   return {
-    title: `${guide.title} - Little Humans Mash`,
+    title: `${guide.title} - TinyHands`,
     description: guide.description,
   }
 }

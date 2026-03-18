@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { guides } from '@/lib/guides'
 
 export const metadata: Metadata = {
-  title: 'Guides - Little Humans Mash',
+  title: 'Guides - TinyHands',
   description:
     'Guides for WFH parents on baby keyboard toys, toddler screen time, and keeping tiny hands safely occupied.',
 }

@@ -1,7 +1,7 @@
 import SmashCanvas from '@/components/play/SmashCanvas'
 
 export const metadata = {
-  title: 'Little Humans Mash - Smash!',
+  title: 'TinyHands - Smash!',
 }
 
 export default function PlayPage() {

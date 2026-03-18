@@ -3,7 +3,7 @@ const steps = [
     number: '1',
     emoji: '🖥️',
     accent: '#FF6B6B',
-    title: 'Open Little Humans Mash',
+    title: 'Open TinyHands',
     description:
       'Open the website on your laptop or tablet. No downloads, no installs - it just works in your browser.',
   },

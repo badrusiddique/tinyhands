@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import FAQItem from '@/components/about/FAQItem'
 
 export const metadata: Metadata = {
-  title: 'About Little Humans Mash - A Keyboard Toy for Ayaan',
-  description: 'The story behind Little Humans Mash - built by a WFH dad for his keyboard-smashing toddler Ayaan.',
+  title: 'About TinyHands - A Keyboard Toy for Ayaan',
+  description: 'The story behind TinyHands - built by a WFH dad for his keyboard-smashing toddler Ayaan.',
 }
 
 export default function AboutPage() {
@@ -14,7 +14,7 @@ export default function AboutPage() {
       <section className="bg-rainbow py-20 text-center px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10" />
         <div className="relative z-10">
-          <h1 className="text-5xl sm:text-6xl font-extrabold text-white drop-shadow-md mb-4">Meet Little Humans Mash 👶</h1>
+          <h1 className="text-5xl sm:text-6xl font-extrabold text-white drop-shadow-md mb-4">Meet TinyHands 👶</h1>
           <p className="text-xl text-white/80 max-w-2xl mx-auto drop-shadow-sm">
             A safe, fullscreen keyboard smash toy built by a work-from-home dad for his keyboard-obsessed toddler.
           </p>
@@ -40,7 +40,7 @@ export default function AboutPage() {
               presentation. Another sends a half-written email.
             </p>
             <p>
-              Little Humans Mash was born out of that frustration, and a lot of love. It turns every
+              TinyHands was born out of that frustration, and a lot of love. It turns every
               key press into a burst of color, sound, and joy. No tabs to accidentally close.
               No emails to accidentally send. Just a safe canvas for tiny hands to go wild.
             </p>
@@ -80,7 +80,7 @@ export default function AboutPage() {
           <div className="space-y-4">
             <FAQItem
               question="Is this safe for my toddler?"
-              answer="Yes! Little Humans Mash intercepts all keyboard input. Dangerous shortcuts (Ctrl+W, Alt+F4, etc.) are blocked. Your toddler can't close tabs, send emails, or navigate away. The screen stays on the smash canvas until you close it."
+              answer="Yes! TinyHands intercepts all keyboard input. Dangerous shortcuts (Ctrl+W, Alt+F4, etc.) are blocked. Your toddler can't close tabs, send emails, or navigate away. The screen stays on the smash canvas until you close it."
             />
             <FAQItem
               question="What data do you collect?"
