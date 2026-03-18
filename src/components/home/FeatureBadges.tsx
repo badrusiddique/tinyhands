@@ -13,17 +13,17 @@ export default function FeatureBadges() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="font-nunito font-extrabold text-3xl sm:text-4xl text-gray-900 mb-3">
-            Built for parents who care
+            Safe and sound 🛡️
           </h2>
           <p className="font-nunito text-lg text-gray-500">
-            Hand it over without worrying.
+            Designed so you can hand it over without worrying.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-3">
           {badges.map((badge) => (
             <span
               key={badge.label}
-              className="inline-flex items-center rounded-full px-6 py-3 font-nunito font-semibold text-lg shadow-sm"
+              className="inline-flex items-center rounded-full px-6 py-3 font-nunito font-bold text-base shadow-md hover:scale-105 transition-transform cursor-default"
               style={{ backgroundColor: badge.bg, color: badge.text }}
             >
               {badge.label}

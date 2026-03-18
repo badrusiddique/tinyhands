@@ -28,15 +28,18 @@ const SLUG_ICONS: Record<string, string> = {
 export default function GuidesPage() {
   return (
     <div className="min-h-screen">
-      {/* Hero banner */}
-      <section className="bg-gradient-to-br from-[#1A1035] via-[#2D1B69] to-[#1d293a] py-16 px-4 text-center">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4">
-          Guides for WFH Parents
-        </h1>
-        <p className="text-lg text-white/60 max-w-2xl mx-auto">
-          Everything you need to know about baby keyboards, toddler screen time, and keeping
-          tiny hands safely occupied while you work.
-        </p>
+      {/* Hero banner — rainbow brand */}
+      <section className="bg-rainbow py-16 px-4 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10" />
+        <div className="relative z-10">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white drop-shadow-md mb-4">
+            Guides for WFH Parents
+          </h1>
+          <p className="text-lg text-white/80 max-w-2xl mx-auto drop-shadow-sm">
+            Everything you need to know about baby keyboards, toddler screen time, and keeping
+            tiny hands safely occupied while you work.
+          </p>
+        </div>
       </section>
 
       {/* Guide grid */}
@@ -50,14 +53,14 @@ export default function GuidesPage() {
                 <Link
                   key={guide.slug}
                   href={`/guides/${guide.slug}`}
-                  className="block bg-white rounded-2xl shadow-md p-6 hover:shadow-xl hover:-translate-y-1 transition-all border-t-4"
+                  className="block bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl hover:-translate-y-1 transition-all border-t-4"
                   style={{ borderTopColor: accentColor }}
                 >
                   <span className="text-3xl mb-3 block" aria-hidden="true">{icon}</span>
-                  <h2 className="text-lg font-bold text-gray-900 mb-2">{guide.title}</h2>
-                  <p className="text-gray-600 text-sm leading-relaxed">{guide.description}</p>
+                  <h2 className="font-nunito text-lg font-bold text-gray-900 mb-2">{guide.title}</h2>
+                  <p className="font-nunito text-gray-600 text-sm leading-relaxed">{guide.description}</p>
                   <span
-                    className="mt-4 inline-block text-sm font-semibold"
+                    className="mt-4 inline-block text-sm font-bold"
                     style={{ color: accentColor }}
                   >
                     Read more →

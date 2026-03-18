@@ -29,6 +29,8 @@ const config: Config = {
         'wiggle': 'wiggle 2s ease-in-out infinite',
         'pulse-scale': 'pulse-scale 2s ease-in-out infinite',
         'spin-slow': 'spin 8s linear infinite',
+        'jiggle': 'jiggle 0.6s ease-in-out infinite',
+        'bounce-big': 'bounce-big 1.5s ease-in-out infinite',
       },
       keyframes: {
         float: {
@@ -42,6 +44,15 @@ const config: Config = {
         'pulse-scale': {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.05)' },
+        },
+        jiggle: {
+          '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
+          '25%': { transform: 'rotate(-5deg) scale(1.05)' },
+          '75%': { transform: 'rotate(5deg) scale(1.05)' },
+        },
+        'bounce-big': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
         },
       },
     },

@@ -1,61 +1,64 @@
 'use client'
 
 import StartButton from '@/components/home/StartButton'
-import { useVisitorCount } from '@/hooks/useVisitorCount'
 
-const EMOJI_CAROUSEL = [
-  { emoji: '🐸', size: 'text-4xl sm:text-5xl', animation: 'animate-float' },
-  { emoji: '🌈', size: 'text-5xl sm:text-6xl', animation: 'animate-float-slow' },
-  { emoji: '🚀', size: 'text-6xl sm:text-7xl', animation: 'animate-float-fast' },
-  { emoji: '🦄', size: 'text-5xl sm:text-6xl', animation: 'animate-float' },
-  { emoji: '🎉', size: 'text-4xl sm:text-5xl', animation: 'animate-float-slow' },
-  { emoji: '🐼', size: 'text-5xl sm:text-6xl', animation: 'animate-float-fast' },
-  { emoji: '⭐', size: 'text-6xl sm:text-7xl', animation: 'animate-float' },
-  { emoji: '🎨', size: 'text-4xl sm:text-5xl', animation: 'animate-float-slow' },
+const EMOJIS = [
+  { emoji: '🐸', delay: 0, x: '8%', y: '12%', size: 'text-6xl sm:text-7xl' },
+  { emoji: '🌈', delay: 200, x: '78%', y: '8%', size: 'text-7xl sm:text-8xl' },
+  { emoji: '🚀', delay: 400, x: '15%', y: '65%', size: 'text-5xl sm:text-7xl' },
+  { emoji: '🦄', delay: 100, x: '85%', y: '60%', size: 'text-6xl sm:text-8xl' },
+  { emoji: '🎉', delay: 300, x: '5%', y: '40%', size: 'text-5xl sm:text-6xl' },
+  { emoji: '🐼', delay: 500, x: '90%', y: '35%', size: 'text-5xl sm:text-7xl' },
+  { emoji: '⭐', delay: 150, x: '25%', y: '80%', size: 'text-6xl sm:text-7xl' },
+  { emoji: '🎨', delay: 350, x: '70%', y: '78%', size: 'text-5xl sm:text-6xl' },
+  { emoji: '🦋', delay: 250, x: '50%', y: '5%', size: 'text-5xl sm:text-7xl' },
+  { emoji: '🍕', delay: 450, x: '40%', y: '85%', size: 'text-5xl sm:text-6xl' },
 ]
 
 export default function Hero() {
-  const { count, loading } = useVisitorCount()
-
   return (
-    <section className="bg-gradient-to-br from-[#1A1035] via-[#2D1B69] to-[#1d293a] py-20 sm:py-28 px-4 relative overflow-hidden">
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        {/* Animated emoji carousel — varied sizes and speeds */}
-        <div className="flex justify-center items-end gap-3 select-none mb-10" aria-hidden="true">
-          {EMOJI_CAROUSEL.map((item, i) => (
+    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-rainbow">
+      {/* Scattered floating emojis — filling the background */}
+      {EMOJIS.map((item) => (
+        <span
+          key={item.emoji}
+          className={`absolute ${item.size} select-none animate-float opacity-40`}
+          style={{
+            left: item.x,
+            top: item.y,
+            animationDelay: `${item.delay}ms`,
+            animationDuration: `${2.5 + item.delay / 200}s`,
+          }}
+          aria-hidden="true"
+        >
+          {item.emoji}
+        </span>
+      ))}
+
+      {/* Center content */}
+      <div className="relative z-10 text-center px-4">
+        {/* Row of big bouncing emojis */}
+        <div className="flex justify-center gap-2 sm:gap-4 mb-6 select-none" aria-hidden="true">
+          {['🐸', '🌈', '🚀', '🦄', '🎉'].map((e, i) => (
             <span
-              key={item.emoji}
-              className={`${item.size} ${item.animation} inline-block`}
-              style={{ animationDelay: `${i * 200}ms` }}
+              key={e}
+              className="text-6xl sm:text-7xl lg:text-8xl inline-block animate-bounce-big"
+              style={{ animationDelay: `${i * 120}ms` }}
             >
-              {item.emoji}
+              {e}
             </span>
           ))}
         </div>
 
-        {/* Headline */}
-        <h1 className="font-nunito font-extrabold text-6xl sm:text-7xl lg:text-8xl text-white leading-tight mb-6">
-          Tiny hands.{' '}
-          <span className="text-gradient-coral">Big fun.</span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="font-nunito text-lg sm:text-xl text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed">
-          A safe fullscreen keyboard toy for toddlers.
-          No ads. No accounts. Just chaos and color.
-        </p>
-
-        {/* Single CTA */}
-        <StartButton className="inline-block font-nunito font-bold text-xl text-white rounded-full px-12 py-5 shadow-lg shadow-coral/30 hover:shadow-xl hover:shadow-coral/40 transition-all animate-pulse-scale bg-coral">
-          Start Smashing →
+        {/* Giant arcade START button */}
+        <StartButton className="inline-flex items-center justify-center gap-3 font-nunito font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white bg-coral rounded-full px-12 sm:px-16 py-6 sm:py-8 shadow-[0_8px_30px_rgba(255,107,107,0.5)] hover:shadow-[0_12px_40px_rgba(255,107,107,0.7)] animate-jiggle hover:animate-none hover:scale-110 transition-transform border-4 border-white/30 cursor-pointer select-none">
+          ▶ START
         </StartButton>
 
-        {/* Visitor count */}
-        {!loading && count > 0 && (
-          <p className="font-nunito text-sm text-white/40 mt-8">
-            👁 {count.toLocaleString()} curious parents visited
-          </p>
-        )}
+        {/* Tiny parent-friendly text */}
+        <p className="font-nunito text-sm text-white/70 mt-8 max-w-xs mx-auto">
+          A safe keyboard toy for toddlers, no ads, no accounts
+        </p>
       </div>
     </section>
   )

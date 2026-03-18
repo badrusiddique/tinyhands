@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'TinyHands - Keyboard Smash Toy for Toddlers',
-    description: 'A safe fullscreen keyboard toy for babies. Hand it over — watch the magic.',
+    description: 'A safe fullscreen keyboard toy for babies. Hand it over, watch the magic.',
     url: 'https://tinyhands.vercel.app',
     siteName: 'TinyHands',
     type: 'website',

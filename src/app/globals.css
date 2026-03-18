@@ -19,4 +19,27 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .bg-rainbow {
+    background: linear-gradient(
+      135deg,
+      #FF6B6B 0%,
+      #FFD93D 20%,
+      #6BCB77 40%,
+      #4D96FF 60%,
+      #C77DFF 80%,
+      #FF6B6B 100%
+    );
+  }
+}
+
+@keyframes jiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-5deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.05); }
+}
+
+@keyframes bounce-big {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }

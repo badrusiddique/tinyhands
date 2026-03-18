@@ -6,6 +6,7 @@ export default function LandingPage() {
   return (
     <>
       <Hero />
+      {/* Parent content — below the fold */}
       <HowItWorks />
       <FeatureBadges />
     </>

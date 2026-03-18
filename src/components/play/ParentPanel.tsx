@@ -101,40 +101,50 @@ export default function ParentPanel({
 
         {/* Sound Toggle */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-semibold text-white/70">Sound</span>
-          <button
-            onClick={onSoundToggle}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-              soundEnabled ? 'bg-green-400' : 'bg-white/20'
-            }`}
-            role="switch"
-            aria-checked={soundEnabled}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                soundEnabled ? 'translate-x-6' : 'translate-x-1'
+          <span className="text-sm font-semibold text-white/70">🔊 Sound</span>
+          <div className="flex items-center gap-2">
+            <span className={`text-xs font-bold ${soundEnabled ? 'text-green-400' : 'text-white/30'}`}>
+              {soundEnabled ? 'ON' : 'OFF'}
+            </span>
+            <button
+              onClick={onSoundToggle}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+                soundEnabled ? 'bg-green-400' : 'bg-white/20'
               }`}
-            />
-          </button>
+              role="switch"
+              aria-checked={soundEnabled}
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${
+                  soundEnabled ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
         </div>
 
         {/* Fullscreen Toggle */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-semibold text-white/70">Fullscreen</span>
-          <button
-            onClick={toggleFullscreen}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-              isFullscreen ? 'bg-blue-400' : 'bg-white/20'
-            }`}
-            role="switch"
-            aria-checked={isFullscreen}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                isFullscreen ? 'translate-x-6' : 'translate-x-1'
+          <span className="text-sm font-semibold text-white/70">📺 Fullscreen</span>
+          <div className="flex items-center gap-2">
+            <span className={`text-xs font-bold ${isFullscreen ? 'text-blue-400' : 'text-white/30'}`}>
+              {isFullscreen ? 'ON' : 'OFF'}
+            </span>
+            <button
+              onClick={toggleFullscreen}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+                isFullscreen ? 'bg-blue-400' : 'bg-white/20'
               }`}
-            />
-          </button>
+              role="switch"
+              aria-checked={isFullscreen}
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${
+                  isFullscreen ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
         </div>
 
         <p className="mt-4 text-xs text-center text-white/30">
