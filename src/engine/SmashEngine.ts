@@ -22,6 +22,7 @@ export class SmashEngine {
   private lastTimestamp = 0
   private theme: Theme
   private prefersReducedMotion: boolean
+  private ambientDots: Array<{ x: number; y: number; size: number; speed: number; opacity: number }> = []
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
@@ -48,6 +49,7 @@ export class SmashEngine {
       this.glyphSystem.spawnWithStrength(char, x, y, strength)
     })
     this.resizeCanvas()
+    this.initAmbientDots()
     window.addEventListener('resize', this.resizeCanvas)
   }
 
@@ -105,6 +107,9 @@ export class SmashEngine {
     this.ctx.fillStyle = bgColor
     this.ctx.fillRect(0, 0, w, h)
 
+    // Ambient dot field (renders after background, before glyphs)
+    this.renderAmbientDots(dt, w, h)
+
     this.glyphSystem.update(dt)
     this.glyphSystem.render(this.ctx)
 
@@ -117,12 +122,44 @@ export class SmashEngine {
       const ctx = this.ctx
       ctx.save()
       ctx.globalAlpha = tagOpacity
-      ctx.font = '16px Nunito, sans-serif'
+      ctx.font = '14px Nunito, sans-serif'
       ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
-      ctx.textAlign = 'center'
+      ctx.textAlign = 'right'
       ctx.textBaseline = 'bottom'
-      ctx.fillText('made for ayaan 🧡', w / 2, h - 48)
+      ctx.fillText('Made for AYAAN \uD83E\uDDE1', w - 24, h - 24)
       ctx.restore()
+    }
+  }
+
+  private initAmbientDots(): void {
+    const count = this.prefersReducedMotion ? 0 : 60
+    this.ambientDots = []
+    for (let i = 0; i < count; i++) {
+      this.ambientDots.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: 1.5 + Math.random() * 2.5,
+        speed: 8 + Math.random() * 12,
+        opacity: 0.15 + Math.random() * 0.15,
+      })
+    }
+  }
+
+  private renderAmbientDots(dt: number, w: number, h: number): void {
+    const color = this.theme.glyphColors[0]
+    for (const dot of this.ambientDots) {
+      dot.y -= dot.speed * dt
+      if (dot.y < -dot.size) {
+        dot.y = h + dot.size
+        dot.x = Math.random() * w
+      }
+      this.ctx.save()
+      this.ctx.globalAlpha = dot.opacity
+      this.ctx.fillStyle = color
+      this.ctx.beginPath()
+      this.ctx.arc(dot.x, dot.y, dot.size / 2, 0, Math.PI * 2)
+      this.ctx.fill()
+      this.ctx.restore()
     }
   }
 
