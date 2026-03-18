@@ -1,4 +1,5 @@
 import { GlyphSystem } from './GlyphSystem'
+import { ParticleSystem } from './ParticleSystem'
 import { PerformanceMonitor } from './PerformanceMonitor'
 import { InputHandler } from './InputHandler'
 import { AudioSystem } from './AudioSystem'
@@ -11,6 +12,7 @@ export class SmashEngine {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
   private glyphSystem: GlyphSystem
+  private particleSystem: ParticleSystem
   private perfMonitor: PerformanceMonitor
   private inputHandler: InputHandler
   private audioSystem: AudioSystem
@@ -26,6 +28,11 @@ export class SmashEngine {
     this.theme = DEFAULT_THEME
     this.glyphSystem = new GlyphSystem({
       glyphCap: this.prefersReducedMotion ? CAPS.GLYPH_REDUCED : CAPS.GLYPH_DEFAULT,
+      prefersReducedMotion: this.prefersReducedMotion,
+      theme: this.theme,
+    })
+    this.particleSystem = new ParticleSystem({
+      particleCap: this.prefersReducedMotion ? CAPS.PARTICLE_REDUCED : CAPS.PARTICLE_DEFAULT,
       prefersReducedMotion: this.prefersReducedMotion,
       theme: this.theme,
     })
@@ -81,11 +88,19 @@ export class SmashEngine {
       bgColor = this.applyBrightness(this.theme.canvasBg, pulse)
     }
 
+    // Reduce particle cap at lowPowerLevel >= 1
+    if (lpl >= 1) {
+      this.particleSystem.setCap(Math.floor(CAPS.PARTICLE_DEFAULT / 2))
+    }
+
     this.ctx.fillStyle = bgColor
     this.ctx.fillRect(0, 0, w, h)
 
     this.glyphSystem.update(dt)
     this.glyphSystem.render(this.ctx)
+
+    this.particleSystem.update(dt)
+    this.particleSystem.render(this.ctx)
   }
 
   private applyBrightness(hex: string, delta: number): string {
@@ -105,6 +120,24 @@ export class SmashEngine {
   setTheme(theme: Theme): void {
     this.theme = theme
     this.glyphSystem.setTheme(theme)
+    this.particleSystem.setTheme(theme)
+  }
+
+  handlePointerMove(x: number, y: number, isDragging: boolean, lastX: number, lastY: number): void {
+    // Note: throttling handled in SmashCanvas via timestamp tracking
+
+    // Interpolate between last and current position for smooth trail
+    const dx = x - lastX
+    const dy = y - lastY
+    const dist = Math.sqrt(dx * dx + dy * dy)
+    const steps = Math.max(1, Math.floor(dist / 20))
+
+    for (let i = 0; i < steps; i++) {
+      const t = i / steps
+      const ix = lastX + dx * t
+      const iy = lastY + dy * t
+      this.particleSystem.spawn(ix, iy, 2)
+    }
   }
 
   handleKeyDown(event: KeyboardEvent): void {
