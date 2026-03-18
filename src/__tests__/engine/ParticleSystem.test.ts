@@ -26,7 +26,7 @@ describe('ParticleSystem', () => {
     system.spawn(0, 0, 280)
     expect(system.getParticles()).toHaveLength(280)
     system.spawn(0, 0, 10)
-    // Cap enforced — oldest particles culled, total stays at or below cap
+    // Cap enforced - oldest particles culled, total stays at or below cap
     expect(system.getParticles().length).toBeLessThanOrEqual(280)
   })
 

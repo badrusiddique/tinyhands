@@ -1,14 +1,14 @@
 export const PHYSICS = {
-  VX_MIN: -22,
-  VX_MAX: 22,
-  VY_MIN: -72,
-  VY_MAX: -32,
-  GRAVITY: 8,
+  VX_MIN: -40,
+  VX_MAX: 40,
+  VY_MIN: -120,
+  VY_MAX: -60,
+  GRAVITY: 9,
   DRAG: 0.994,
-  LIFETIME: 2.0,
-  SIZE_MIN: 100,
-  SIZE_MAX: 220,
-  FADE_DURATION: 0.5,
+  LIFETIME: 4.0,
+  SIZE_MIN: 180,
+  SIZE_MAX: 360,
+  FADE_DURATION: 1.5,
 } as const
 
 export const CAPS = {

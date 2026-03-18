@@ -132,30 +132,34 @@ export class SmashEngine {
   }
 
   private initAmbientDots(): void {
-    const count = this.prefersReducedMotion ? 0 : 60
+    const count = this.prefersReducedMotion ? 0 : 150
     this.ambientDots = []
     for (let i = 0; i < count; i++) {
       this.ambientDots.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        size: 1.5 + Math.random() * 2.5,
-        speed: 8 + Math.random() * 12,
-        opacity: 0.15 + Math.random() * 0.15,
+        size: 1 + Math.random() * 3,         // 1-4px
+        speed: 15 + Math.random() * 25,       // 15-40px/s upward
+        opacity: 0.25 + Math.random() * 0.35, // 0.25-0.60 - much more visible
       })
     }
   }
 
   private renderAmbientDots(dt: number, w: number, h: number): void {
-    const color = this.theme.glyphColors[0]
     for (const dot of this.ambientDots) {
+      // Drift upward with gentle horizontal sway (snow-like)
       dot.y -= dot.speed * dt
+      dot.x += Math.sin(dot.y * 0.02) * 0.4  // gentle sway
+
+      // Wrap around top
       if (dot.y < -dot.size) {
         dot.y = h + dot.size
         dot.x = Math.random() * w
       }
+
       this.ctx.save()
       this.ctx.globalAlpha = dot.opacity
-      this.ctx.fillStyle = color
+      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'  // white snow
       this.ctx.beginPath()
       this.ctx.arc(dot.x, dot.y, dot.size / 2, 0, Math.PI * 2)
       this.ctx.fill()

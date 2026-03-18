@@ -13,13 +13,13 @@ describe('GlyphSystem', () => {
     const g = system.spawn('A', 100, 100)
     expect(g).not.toBeNull()
     expect(g!.char).toBe('A')
-    expect(g!.vx).toBeGreaterThanOrEqual(-22)
-    expect(g!.vx).toBeLessThanOrEqual(22)
-    expect(g!.vy).toBeGreaterThanOrEqual(-72)
-    expect(g!.vy).toBeLessThanOrEqual(-32)
-    expect(g!.size).toBeGreaterThanOrEqual(100)
-    expect(g!.size).toBeLessThanOrEqual(220)
-    expect(g!.lifetime).toBe(2.0)
+    expect(g!.vx).toBeGreaterThanOrEqual(-40)
+    expect(g!.vx).toBeLessThanOrEqual(40)
+    expect(g!.vy).toBeGreaterThanOrEqual(-120)
+    expect(g!.vy).toBeLessThanOrEqual(-60)
+    expect(g!.size).toBeGreaterThanOrEqual(180)
+    expect(g!.size).toBeLessThanOrEqual(360)
+    expect(g!.lifetime).toBe(4.0)
     expect(g!.age).toBe(0)
     expect(g!.opacity).toBe(1)
   })
@@ -53,13 +53,13 @@ describe('GlyphSystem', () => {
 
   it('removes glyphs past their lifetime', () => {
     system.spawn('A', 100, 100)
-    system.update(2.1) // past lifetime of 2.0s
+    system.update(5) // past lifetime of 4.0s
     expect(system.getGlyphs()).toHaveLength(0)
   })
 
   it('fades out in final 0.5s of lifetime', () => {
     const g = system.spawn('A', 100, 100)!
-    g.age = 1.6 // 0.4s left of 2.0s lifetime — within FADE_DURATION of 0.5s
+    g.age = 3.0 // 1.0s left of 4.0s lifetime - within FADE_DURATION of 1.5s
     system.update(0.001)
     const updated = system.getGlyphs()[0]
     expect(updated.opacity).toBeLessThan(1)

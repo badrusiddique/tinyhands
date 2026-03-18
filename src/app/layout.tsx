@@ -10,7 +10,7 @@ const nunito = Nunito({
 })
 
 export const metadata: Metadata = {
-  title: 'TinyHands — Safe Keyboard Smash Toy for Toddlers',
+  title: 'TinyHands - Safe Keyboard Smash Toy for Toddlers',
   description: 'A fullscreen keyboard smash toy for toddlers. Safe, fun, and ad-free.',
 }
 

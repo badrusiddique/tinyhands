@@ -24,7 +24,7 @@ describe('IdleDemo', () => {
   })
 
   it('does not activate without any user interaction', () => {
-    // No recordInput() called — hasInteracted remains false
+    // No recordInput() called - hasInteracted remains false
     vi.advanceTimersByTime(5000)
     idle.update(5)
     vi.advanceTimersByTime(700)
@@ -37,7 +37,7 @@ describe('IdleDemo', () => {
     idle.recordInput() // simulate first interaction
     vi.advanceTimersByTime(3000)
     idle.update(3)
-    // First burst at 700ms interval — need to also advance past burst interval
+    // First burst at 700ms interval - need to also advance past burst interval
     vi.advanceTimersByTime(700)
     idle.update(3.7)
     expect(onSpawn).toHaveBeenCalled()

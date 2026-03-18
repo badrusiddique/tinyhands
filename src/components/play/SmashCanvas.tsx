@@ -58,7 +58,7 @@ export default function SmashCanvas() {
       if (!engine) return
 
       const now = performance.now()
-      const interval = isDragging.current ? 120 : 80
+      const interval = isDragging.current ? 320 : 200
       if (now - lastParticleTime.current < interval) return
       lastParticleTime.current = now
 
@@ -124,6 +124,18 @@ export default function SmashCanvas() {
         soundEnabled={soundEnabled}
         onSoundToggle={handleSoundToggle}
       />
+      {/* Subtle settings icon — reveals parent panel */}
+      {!panelHook.isOpen && (
+        <button
+          onClick={panelHook.open}
+          className="fixed bottom-4 left-4 z-30 text-white/20 hover:text-white/60 transition-colors text-2xl leading-none select-none"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
+          title="Parent settings"
+          aria-label="Open parent settings"
+        >
+          ⚙
+        </button>
+      )}
     </>
   )
 }
