@@ -1,5 +1,8 @@
 import { GlyphSystem } from './GlyphSystem'
 import { PerformanceMonitor } from './PerformanceMonitor'
+import { InputHandler } from './InputHandler'
+import { AudioSystem } from './AudioSystem'
+import { EmojiPool } from '@/lib/emojiPool'
 import { CAPS } from '@/lib/constants'
 import { DEFAULT_THEME } from '@/lib/themes'
 import type { Theme } from '@/types/smash'
@@ -9,10 +12,11 @@ export class SmashEngine {
   private ctx: CanvasRenderingContext2D
   private glyphSystem: GlyphSystem
   private perfMonitor: PerformanceMonitor
+  private inputHandler: InputHandler
+  private audioSystem: AudioSystem
   private rafId: number | null = null
   private lastTimestamp = 0
   private theme: Theme
-  private soundEnabled = true
   private prefersReducedMotion: boolean
 
   constructor(canvas: HTMLCanvasElement) {
@@ -26,6 +30,9 @@ export class SmashEngine {
       theme: this.theme,
     })
     this.perfMonitor = new PerformanceMonitor()
+    const emojiPool = new EmojiPool()
+    this.inputHandler = new InputHandler(emojiPool)
+    this.audioSystem = new AudioSystem()
     this.resizeCanvas()
     window.addEventListener('resize', this.resizeCanvas)
   }
@@ -100,8 +107,16 @@ export class SmashEngine {
     this.glyphSystem.setTheme(theme)
   }
 
+  handleKeyDown(event: KeyboardEvent): void {
+    const result = this.inputHandler.handle(event)
+    if (!result) return
+    this.spawnGlyph(result.char)
+    this.audioSystem.playTone(result.type)
+    // Also notify idle system if present (will be added in commit 9)
+  }
+
   setSoundEnabled(enabled: boolean): void {
-    this.soundEnabled = enabled
+    this.audioSystem.setEnabled(enabled)
   }
 
   getTheme(): Theme {
@@ -109,6 +124,6 @@ export class SmashEngine {
   }
 
   isSoundEnabled(): boolean {
-    return this.soundEnabled
+    return this.audioSystem.isEnabled()
   }
 }
