@@ -8,6 +8,15 @@
   }
 
   body {
-    background-color: #FFFBF0;
+    background-color: #FFFFFF;
+  }
+}
+
+@layer utilities {
+  .text-gradient-coral {
+    background: linear-gradient(135deg, #FF6B6B, #FFD93D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

@@ -18,8 +18,15 @@ export default function SmashCanvas() {
 
   const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME)
   const [soundEnabled, setSoundEnabled] = useState(true)
+  const [showHint, setShowHint] = useState(true)
 
   const panelHook = useParentPanel()
+
+  // Auto-hide the hint after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(false), 5000)
+    return () => clearTimeout(timer)
+  }, [])
 
   function handleThemeChange(theme: Theme) {
     engineRef.current?.setTheme(theme)
@@ -37,6 +44,9 @@ export default function SmashCanvas() {
     function handleKeyDown(e: KeyboardEvent) {
       const engine = engineRef.current
       if (!engine) return
+
+      // Hide hint on first keypress
+      setShowHint(false)
 
       if (panelHook.isOpen) {
         if (e.key === 'Escape') {
@@ -67,6 +77,7 @@ export default function SmashCanvas() {
     function handlePointerDown(e: PointerEvent) {
       isDragging.current = true
       lastPointerPos.current = { x: e.clientX, y: e.clientY }
+      setShowHint(false)
 
       if (e.clientX <= PARENT_PANEL.LONG_PRESS_AREA && e.clientY <= PARENT_PANEL.LONG_PRESS_AREA) {
         longPressRef.current = setTimeout(() => {
@@ -113,6 +124,20 @@ export default function SmashCanvas() {
         className="block"
         style={{ touchAction: 'none', cursor: 'none' }}
       />
+
+      {/* First-run hint */}
+      {showHint && !panelHook.isOpen && (
+        <div
+          className="fixed inset-0 z-20 flex items-center justify-center pointer-events-none"
+        >
+          <p
+            className="font-nunito font-bold text-3xl sm:text-4xl text-white/50 animate-pulse select-none"
+          >
+            Press any key! 🎹
+          </p>
+        </div>
+      )}
+
       <ParentPanel
         isOpen={panelHook.isOpen}
         onClose={panelHook.close}
@@ -121,6 +146,7 @@ export default function SmashCanvas() {
         soundEnabled={soundEnabled}
         onSoundToggle={handleSoundToggle}
       />
+
       {!panelHook.isOpen && (
         <button
           onClick={panelHook.open}
@@ -137,7 +163,7 @@ export default function SmashCanvas() {
           title="Themes & Settings (or type 'ayaan')"
           aria-label="Open parent settings"
         >
-          ⚙ Themes
+          🎨 Themes
         </button>
       )}
     </>
