@@ -1,6 +1,7 @@
 import Hero from '@/components/home/Hero'
 import FeatureBadges from '@/components/home/FeatureBadges'
 import HowItWorks from '@/components/home/HowItWorks'
+import VisitorCounter from '@/components/home/VisitorCounter'
 
 export default function LandingPage() {
   return (
@@ -8,7 +9,7 @@ export default function LandingPage() {
       <Hero />
       <FeatureBadges />
       <HowItWorks />
-      {/* VisitorCounter — added in commit 4 */}
+      <VisitorCounter />
     </>
   )
 }
