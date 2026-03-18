@@ -2,7 +2,7 @@
 
 A safe, fullscreen keyboard smash toy for toddlers. No accounts. No ads. Just chaos and color.
 
-**[Live Demo](https://tinyhands.vercel.app)**
+**[Live Demo](https://tinyhands-pi.vercel.app)**
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue?logo=typescript)
@@ -171,7 +171,7 @@ npm run test
 
 ## Deployment
 
-Deployed on Vercel free tier at [tinyhands.vercel.app](https://tinyhands.vercel.app).
+Deployed on Vercel free tier at [tinyhands-pi.vercel.app](https://tinyhands-pi.vercel.app).
 
 Push to `main` triggers automatic deployment.
 
