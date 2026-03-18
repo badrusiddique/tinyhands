@@ -17,9 +17,9 @@ describe('GlyphSystem', () => {
     expect(g!.vx).toBeLessThanOrEqual(22)
     expect(g!.vy).toBeGreaterThanOrEqual(-72)
     expect(g!.vy).toBeLessThanOrEqual(-32)
-    expect(g!.size).toBeGreaterThanOrEqual(60)
-    expect(g!.size).toBeLessThanOrEqual(180)
-    expect(g!.lifetime).toBe(1.25)
+    expect(g!.size).toBeGreaterThanOrEqual(100)
+    expect(g!.size).toBeLessThanOrEqual(220)
+    expect(g!.lifetime).toBe(2.0)
     expect(g!.age).toBe(0)
     expect(g!.opacity).toBe(1)
   })
@@ -53,13 +53,13 @@ describe('GlyphSystem', () => {
 
   it('removes glyphs past their lifetime', () => {
     system.spawn('A', 100, 100)
-    system.update(2) // past lifetime of 1.25s
+    system.update(2.1) // past lifetime of 2.0s
     expect(system.getGlyphs()).toHaveLength(0)
   })
 
-  it('fades out in final 0.3s of lifetime', () => {
+  it('fades out in final 0.5s of lifetime', () => {
     const g = system.spawn('A', 100, 100)!
-    g.age = 1.0 // 0.25s left of 1.25s lifetime
+    g.age = 1.6 // 0.4s left of 2.0s lifetime — within FADE_DURATION of 0.5s
     system.update(0.001)
     const updated = system.getGlyphs()[0]
     expect(updated.opacity).toBeLessThan(1)

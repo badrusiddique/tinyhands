@@ -58,7 +58,7 @@ export default function SmashCanvas() {
       if (!engine) return
 
       const now = performance.now()
-      const interval = isDragging.current ? 52 : 34
+      const interval = isDragging.current ? 120 : 80
       if (now - lastParticleTime.current < interval) return
       lastParticleTime.current = now
 

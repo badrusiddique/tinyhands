@@ -5,10 +5,10 @@ export const PHYSICS = {
   VY_MAX: -32,
   GRAVITY: 8,
   DRAG: 0.994,
-  LIFETIME: 1.25,
-  SIZE_MIN: 60,
-  SIZE_MAX: 180,
-  FADE_DURATION: 0.3,
+  LIFETIME: 2.0,
+  SIZE_MIN: 100,
+  SIZE_MAX: 220,
+  FADE_DURATION: 0.5,
 } as const
 
 export const CAPS = {

@@ -2,26 +2,26 @@ import { IDLE } from '@/lib/constants'
 import { EmojiPool } from '@/lib/emojiPool'
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-const AYAAN_TAG_FADE_IN_S = 0.5   // seconds
-const AYAAN_TAG_FADE_OUT_S = 0.2  // seconds
+const AYAAN_TAG_FADE_IN_S = 0.5
+const AYAAN_TAG_FADE_OUT_S = 0.2
 
 export class IdleDemo {
   private onSpawn: (char: string, strength: number) => void
-  private lastInputTime: number
-  private lastBurstTime: number
+  private lastInputTime = 0
+  private lastBurstTime = 0
   private active = false
+  private hasInteracted = false
   private emojiPool: EmojiPool
   private ayaanTagOpacity = 0
   private ayaanTagFading: 'in' | 'out' | 'none' = 'none'
 
   constructor(onSpawn: (char: string, strength: number) => void) {
     this.onSpawn = onSpawn
-    this.lastInputTime = performance.now()
-    this.lastBurstTime = 0
     this.emojiPool = new EmojiPool()
   }
 
   recordInput(): void {
+    this.hasInteracted = true
     this.lastInputTime = performance.now()
     if (this.active) {
       this.active = false
@@ -30,6 +30,9 @@ export class IdleDemo {
   }
 
   update(dt: number): void {
+    // Never trigger until user has interacted at least once
+    if (!this.hasInteracted) return
+
     const now = performance.now()
     const idleMs = now - this.lastInputTime
 
@@ -53,7 +56,6 @@ export class IdleDemo {
     // Spawn burst every BURST_INTERVAL_MS
     if (now - this.lastBurstTime >= IDLE.BURST_INTERVAL_MS) {
       this.lastBurstTime = now
-      // Randomly pick letter or emoji
       const char = Math.random() < 0.5
         ? LETTERS[Math.floor(Math.random() * LETTERS.length)]
         : this.emojiPool.next()
