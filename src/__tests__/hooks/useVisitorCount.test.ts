@@ -1,11 +1,6 @@
-import { renderHook, waitFor } from '@testing-library/react'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { renderHook, waitFor, act } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-// Mock fetch globally
-const mockFetch = vi.fn()
-global.fetch = mockFetch
-
-// Mock sessionStorage
 const mockSessionStorage: Record<string, string> = {}
 vi.stubGlobal('sessionStorage', {
   getItem: (key: string) => mockSessionStorage[key] ?? null,
@@ -13,44 +8,62 @@ vi.stubGlobal('sessionStorage', {
   removeItem: (key: string) => { delete mockSessionStorage[key] },
 })
 
+const mockFetch = vi.fn()
+global.fetch = mockFetch
+
 describe('useVisitorCount', () => {
   beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    vi.resetModules()
     mockFetch.mockReset()
-    Object.keys(mockSessionStorage).forEach(k => delete mockSessionStorage[k])
   })
 
-  it('POSTs on first visit and returns count', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ count: 42 }),
-    })
-    const { useVisitorCount } = await import('@/hooks/useVisitorCount')
-    const { result } = renderHook(() => useVisitorCount())
-    await waitFor(() => expect(result.current.count).toBe(42))
-    expect(mockFetch).toHaveBeenCalledWith('/api/visitors', expect.objectContaining({ method: 'POST' }))
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
-  it('GETs on repeat visit (sessionStorage set)', async () => {
-    mockSessionStorage['tinyhands-counted'] = 'true'
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ count: 99 }),
-    })
+  it('GETs count immediately on load', async () => {
+    mockFetch.mockResolvedValue({ ok: true, json: async () => ({ count: 41 }) })
+
     const { useVisitorCount } = await import('@/hooks/useVisitorCount')
     const { result } = renderHook(() => useVisitorCount())
-    await waitFor(() => expect(result.current.count).toBe(99))
-    // On repeat visit, fetch is called with only the URL (no options object with method: POST)
-    const calls = mockFetch.mock.calls
-    expect(calls.length).toBe(1)
-    const [url, options] = calls[0]
-    expect(url).toBe('/api/visitors')
-    expect(options?.method).not.toBe('POST')
+
+    await waitFor(() => expect(result.current.count).toBe(41))
+    expect(mockFetch).toHaveBeenCalledWith('/api/visitors')
+  })
+
+  it('POSTs every 60s to increment count', async () => {
+    let counter = 10
+    mockFetch.mockImplementation(async (_url: string, opts?: RequestInit) => {
+      if (opts?.method === 'POST') counter++
+      return { ok: true, json: async () => ({ count: counter }) }
+    })
+
+    const { useVisitorCount } = await import('@/hooks/useVisitorCount')
+    const { result } = renderHook(() => useVisitorCount())
+
+    await waitFor(() => expect(result.current.count).toBe(10))
+
+    // After 60s: 1 increment
+    await act(async () => { vi.advanceTimersByTime(60_000) })
+    await waitFor(() => expect(result.current.count).toBe(11))
+
+    // After another 60s: 2nd increment
+    await act(async () => { vi.advanceTimersByTime(60_000) })
+    await waitFor(() => expect(result.current.count).toBe(12))
+
+    const postCalls = mockFetch.mock.calls.filter(
+      ([, opts]: [string, RequestInit?]) => opts?.method === 'POST'
+    )
+    expect(postCalls).toHaveLength(2)
   })
 
   it('returns 0 on fetch error', async () => {
-    mockFetch.mockRejectedValueOnce(new Error('Network error'))
+    mockFetch.mockRejectedValue(new Error('Network error'))
+
     const { useVisitorCount } = await import('@/hooks/useVisitorCount')
     const { result } = renderHook(() => useVisitorCount())
+
     await waitFor(() => expect(result.current.loading).toBe(false))
     expect(result.current.count).toBe(0)
   })

@@ -2,30 +2,32 @@
 
 import { useState, useEffect } from 'react'
 
+const TICK_INTERVAL_MS = 60_000
+
 export function useVisitorCount() {
   const [count, setCount] = useState<number>(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchCount() {
+    // Fetch current count immediately
+    fetch('/api/visitors')
+      .then(res => res.json())
+      .then(data => setCount(data.count))
+      .catch(() => setCount(0))
+      .finally(() => setLoading(false))
+
+    // Increment every 60s the user stays on the site
+    const interval = setInterval(async () => {
       try {
-        const alreadyCounted = sessionStorage.getItem('tinyhands-counted')
-        let res: Response
-        if (alreadyCounted) {
-          res = await fetch('/api/visitors')
-        } else {
-          res = await fetch('/api/visitors', { method: 'POST' })
-          sessionStorage.setItem('tinyhands-counted', 'true')
-        }
+        const res = await fetch('/api/visitors', { method: 'POST' })
         const data = await res.json()
         setCount(data.count)
       } catch {
-        setCount(0)
-      } finally {
-        setLoading(false)
+        // Failed to increment, will retry next tick
       }
-    }
-    fetchCount()
+    }, TICK_INTERVAL_MS)
+
+    return () => clearInterval(interval)
   }, [])
 
   return { count, loading }
