@@ -9,9 +9,11 @@ export async function GET() {
   }
 }
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    const count = await kv.incr('visits')
+    const url = new URL(request.url)
+    const by = Math.max(1, parseInt(url.searchParams.get('by') ?? '1', 10))
+    const count = await kv.incrby('visits', by)
     return Response.json({ count })
   } catch {
     return Response.json({ count: 0 })
