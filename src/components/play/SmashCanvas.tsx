@@ -150,7 +150,7 @@ export default function SmashCanvas() {
       {!panelHook.isOpen && (
         <button
           onClick={panelHook.open}
-          className="fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full px-3 py-2 transition-all hover:scale-105"
+          className="fixed bottom-5 left-5 z-30 flex items-center gap-2 rounded-full px-3 py-2 transition-all hover:scale-105"
           style={{
             background: 'rgba(255,255,255,0.12)',
             color: 'rgba(255,255,255,0.75)',
