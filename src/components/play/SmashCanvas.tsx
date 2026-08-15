@@ -10,6 +10,7 @@ import type { Theme } from '@/types/smash'
 
 export default function SmashCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const hiddenInputRef = useRef<HTMLInputElement>(null)
   const engineRef = useSmashEngine(canvasRef)
   const isDragging = useRef(false)
   const lastPointerPos = useRef({ x: 0, y: 0 })
@@ -19,6 +20,11 @@ export default function SmashCanvas() {
   const [currentTheme, setCurrentTheme] = useState<Theme>(DEFAULT_THEME)
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [showHint, setShowHint] = useState(true)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  }, [])
 
   const panelHook = useParentPanel()
 
@@ -44,6 +50,14 @@ export default function SmashCanvas() {
     function handleKeyDown(e: KeyboardEvent) {
       const engine = engineRef.current
       if (!engine) return
+
+      // When the hidden input is focused (touch mode), trusted keydown events are
+      // also fired alongside the 'input' event. Skip here — handleHiddenInput
+      // re-calls this function with a synthetic (non-trusted) event instead.
+      if (e.isTrusted && hiddenInputRef.current && document.activeElement === hiddenInputRef.current) {
+        if (e.key === 'Escape' && panelHook.isOpen) panelHook.close()
+        return
+      }
 
       // Hide hint on first keypress
       setShowHint(false)
@@ -79,6 +93,11 @@ export default function SmashCanvas() {
       lastPointerPos.current = { x: e.clientX, y: e.clientY }
       setShowHint(false)
 
+      // Bring up virtual keyboard on touch/pen devices
+      if (e.pointerType !== 'mouse') {
+        hiddenInputRef.current?.focus()
+      }
+
       if (e.clientX <= PARENT_PANEL.LONG_PRESS_AREA && e.clientY <= PARENT_PANEL.LONG_PRESS_AREA) {
         longPressRef.current = setTimeout(() => {
           panelHook.open()
@@ -102,11 +121,24 @@ export default function SmashCanvas() {
       }
     }
 
+    // Handle input from virtual keyboard (Android fires 'input' not 'keydown' reliably)
+    function handleHiddenInput(e: Event) {
+      const data = (e as InputEvent).data
+      if (!data) return
+      for (const char of data) {
+        // Synthetic events are isTrusted=false, so handleKeyDown won't re-filter them
+        handleKeyDown(new KeyboardEvent('keydown', { key: char, bubbles: true }))
+      }
+    }
+
+    const hiddenInput = hiddenInputRef.current
+
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('pointermove', handlePointerMove)
     window.addEventListener('pointerdown', handlePointerDown)
     window.addEventListener('pointerup', handlePointerUp)
     window.addEventListener('pointercancel', handlePointerCancel)
+    hiddenInput?.addEventListener('input', handleHiddenInput)
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
@@ -114,6 +146,7 @@ export default function SmashCanvas() {
       window.removeEventListener('pointerdown', handlePointerDown)
       window.removeEventListener('pointerup', handlePointerUp)
       window.removeEventListener('pointercancel', handlePointerCancel)
+      hiddenInput?.removeEventListener('input', handleHiddenInput)
     }
   }, [engineRef, panelHook])
 
@@ -125,6 +158,29 @@ export default function SmashCanvas() {
         style={{ touchAction: 'none', cursor: 'none' }}
       />
 
+      {/* Hidden input to trigger virtual keyboard on touch devices */}
+      <input
+        ref={hiddenInputRef}
+        type="text"
+        inputMode="text"
+        autoCapitalize="off"
+        autoCorrect="off"
+        autoComplete="off"
+        spellCheck={false}
+        aria-hidden="true"
+        tabIndex={-1}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: 1,
+          height: 1,
+          opacity: 0,
+          pointerEvents: 'none',
+          fontSize: 16, // prevents iOS zoom on focus
+        }}
+      />
+
       {/* First-run hint */}
       {showHint && !panelHook.isOpen && (
         <div
@@ -133,7 +189,7 @@ export default function SmashCanvas() {
           <p
             className="font-nunito font-bold text-3xl sm:text-4xl text-white/50 animate-pulse select-none"
           >
-            Press any key! 🎹
+            {isTouchDevice ? 'Tap to type! ⌨️' : 'Press any key! 🎹'}
           </p>
         </div>
       )}

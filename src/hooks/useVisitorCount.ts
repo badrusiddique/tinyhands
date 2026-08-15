@@ -10,31 +10,46 @@ export function useVisitorCount() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Fetch current count and display it
-    fetch('/api/visitors')
-      .then(res => res.json())
-      .then(data => setCount(data.count))
-      .catch(() => setCount(0))
-      .finally(() => setLoading(false))
+    let mounted = true
 
-    // Silently increment by 10 once per browser session
-    if (!sessionStorage.getItem(SESSION_KEY)) {
-      sessionStorage.setItem(SESSION_KEY, '1')
-      fetch('/api/visitors?by=10', { method: 'POST' }).catch(() => {})
+    async function init() {
+      try {
+        if (!sessionStorage.getItem(SESSION_KEY)) {
+          // First visit this session: increment by 10 and use the returned count
+          sessionStorage.setItem(SESSION_KEY, '1')
+          const res = await fetch('/api/visitors?by=10', { method: 'POST' })
+          const data = await res.json()
+          if (mounted) setCount(data.count)
+        } else {
+          // Returning visitor: just read the current count
+          const res = await fetch('/api/visitors')
+          const data = await res.json()
+          if (mounted) setCount(data.count)
+        }
+      } catch {
+        if (mounted) setCount(0)
+      } finally {
+        if (mounted) setLoading(false)
+      }
     }
+
+    init()
 
     // Increment every 60s the user stays on the site
     const interval = setInterval(async () => {
       try {
         const res = await fetch('/api/visitors?by=1', { method: 'POST' })
         const data = await res.json()
-        setCount(data.count)
+        if (mounted) setCount(data.count)
       } catch {
         // Failed to increment, will retry next tick
       }
     }, TICK_INTERVAL_MS)
 
-    return () => clearInterval(interval)
+    return () => {
+      mounted = false
+      clearInterval(interval)
+    }
   }, [])
 
   return { count, loading }
